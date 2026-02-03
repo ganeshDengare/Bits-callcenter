@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BITS Institute - Student Enquiry Portal</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f5f9ff;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 30px 0;
+        }
+        
+        .logo-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+        
+        .logo {
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(135deg, #ff6b6b, #ff8e53);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 2rem;
+            color: white;
+            border: 3px solid #0a2463;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .header h1 {
+            font-size: 2.5rem;
+            color: #0a2463;
+            margin-bottom: 10px;
+        }
+        
+        .header p {
+            font-size: 1.2rem;
+            color: #555;
+        }
+        
+        .portal-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 30px;
+        }
+        
+        .portal-card {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+            border: 1px solid #eaeaea;
+        }
+        
+        .portal-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+        }
+        
+        .portal-icon {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            color: #0a2463;
+        }
+        
+        .portal-card h2 {
+            color: #0a2463;
+            margin-bottom: 15px;
+            font-size: 1.8rem;
+        }
+        
+        .portal-card p {
+            color: #666;
+            margin-bottom: 25px;
+            font-size: 1rem;
+        }
+        
+        .btn {
+            display: inline-block;
+            background: linear-gradient(to right, #0a2463, #3e5c76);
+            color: white;
+            padding: 14px 28px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            text-align: center;
+        }
+        
+        .btn:hover {
+            background: linear-gradient(to right, #3e5c76, #0a2463);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(10, 36, 99, 0.3);
+        }
+        
+        .features {
+            margin-top: 50px;
+            background: white;
+            border-radius: 15px;
+            padding: 40px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+        
+        .features h2 {
+            text-align: center;
+            color: #0a2463;
+            margin-bottom: 30px;
+            font-size: 2rem;
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+        }
+        
+        .feature-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+        }
+        
+        .feature-icon {
+            font-size: 1.5rem;
+            color: #ff6b6b;
+            min-width: 30px;
+        }
+        
+        .feature-text h3 {
+            color: #0a2463;
+            margin-bottom: 8px;
+        }
+        
+        .feature-text p {
+            color: #666;
+            font-size: 0.95rem;
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 50px;
+            padding: 20px;
+            color: #666;
+            font-size: 0.9rem;
+        }
+        
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .portal-options {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo-container">
+                <div class="logo">BITS</div>
+                <h1>BITS Institute</h1>
+            </div>
+            <p>Your Gateway to Quality Education</p>
+        </div>
+        
+        <div class="portal-options">
+            <div class="portal-card">
+                <div class="portal-icon">
+                    <i class="fas fa-user-graduate"></i>
+                </div>
+                <h2>Enquiry Portal</h2>
+                <p>Access your academic records, course materials, and communicate with faculty members.</p>
+                <a href="student.html" class="btn">Access Student Portal</a>
+            </div>
+            
+            <div class="portal-card">
+                <div class="portal-icon">
+                    <i class="fas fa-headset"></i>
+                </div>
+                <h2>Call Center Portal</h2>
+                <p>For executive staff to manage student enquiries and track communication history.</p>
+                <a href="executive.html" class="btn">Access Call Center</a>
+            </div>
+        </div>
+        
+        <div class="features">
+            <h2>Why Choose BITS Institute?</h2>
+            <div class="features-grid">
+                <div class="feature-item">
+                    <div class="feature-icon">
+                        <i class="fas fa-graduation-cap"></i>
+                    </div>
+                    <div class="feature-text">
+                        <h3>Quality Education</h3>
+                        <p>Industry-focused curriculum designed by experts to prepare students for real-world challenges.</p>
+                    </div>
+                </div>
+                
+                <div class="feature-item">
+                    <div class="feature-icon">
+                        <i class="fas fa-chalkboard-teacher"></i>
+                    </div>
+                    <div class="feature-text">
+                        <h3>Expert Faculty</h3>
+                        <p>Learn from experienced professionals and industry veterans who bring practical knowledge to classrooms.</p>
+                    </div>
+                </div>
+                
+                <div class="feature-item">
+                    <div class="feature-icon">
+                        <i class="fas fa-laptop"></i>
+                    </div>
+                    <div class="feature-text">
+                        <h3>Modern Facilities</h3>
+                        <p>State-of-the-art labs, libraries, and digital learning environments for enhanced education experience.</p>
+                    </div>
+                </div>
+                
+                <div class="feature-item">
+                    <div class="feature-icon">
+                        <i class="fas fa-briefcase"></i>
+                    </div>
+                    <div class="feature-text">
+                        <h3>Career Support</h3>
+                        <p>Comprehensive placement assistance and career guidance to help students achieve their professional goals.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <footer>
+            <p>&copy; 2026 BITS Institute. All rights reserved.</p>
+        </footer>
+    </div>
+</body>
+</html>

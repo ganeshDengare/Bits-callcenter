@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BITS Institute - Student Enquiry Portal</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f5f9ff;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px 0;
+        }
+        
+        .logo-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+        
+        .logo {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #ff6b6b, #ff8e53);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 1.8rem;
+            color: white;
+            border: 3px solid #0a2463;
+        }
+        
+        .header h1 {
+            font-size: 2rem;
+            color: #0a2463;
+        }
+        
+        .back-btn {
+            display: inline-block;
+            margin-bottom: 20px;
+            color: #0a2463;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        
+        .back-btn i {
+            margin-right: 8px;
+        }
+        
+        .enquiry-form {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+        
+        .form-title {
+            color: #0a2463;
+            margin-bottom: 25px;
+            font-size: 1.8rem;
+            text-align: center;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #444;
+        }
+        
+        .form-group input, 
+        .form-group select, 
+        .form-group textarea {
+            width: 100%;
+            padding: 14px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border 0.3s;
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        .form-group input:focus, 
+        .form-group select:focus, 
+        .form-group textarea:focus {
+            border-color: #0a2463;
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(10, 36, 99, 0.1);
+        }
+        
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        
+        .btn {
+            display: inline-block;
+            background: linear-gradient(to right, #0a2463, #3e5c76);
+            color: white;
+            padding: 14px 28px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            width: 100%;
+            margin-top: 10px;
+        }
+        
+        .btn:hover {
+            background: linear-gradient(to right, #3e5c76, #0a2463);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(10, 36, 99, 0.3);
+        }
+        
+        .alert {
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            display: none;
+        }
+        
+        .alert-success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        
+        .alert-error {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        
+        @media (max-width: 768px) {
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo-container">
+                <div class="logo">BITS</div>
+                <h1>Enquiry Portal</h1>
+            </div>
+        </div>
+        
+        <a href="index.html" class="back-btn">
+            <i class="fas fa-arrow-left"></i> Back to Home
+        </a>
+        
+        <div class="enquiry-form">
+            <h2 class="form-title">Submit Your Enquiry</h2>
+            
+            <div id="successAlert" class="alert alert-success">
+                <i class="fas fa-check-circle"></i> Your enquiry has been submitted successfully!
+            </div>
+            
+            <div id="errorAlert" class="alert alert-error">
+                <i class="fas fa-exclamation-circle"></i> Please fill in all required fields.
+            </div>
+            
+            <div id="otpAlert" class="alert alert-success">
+                <i class="fas fa-check-circle"></i> OTP sent to your email! Please check your inbox.
+            </div>
+            
+            <div id="verificationAlert" class="alert alert-success">
+                <i class="fas fa-check-circle"></i> Email verified successfully!
+            </div>
+            
+            <form id="enquiryForm">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="firstName">First Name *</label>
+                        <input type="text" id="firstName" name="firstName" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="lastName">Last Name *</label>
+                        <input type="text" id="lastName" name="lastName" required>
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="email">Email Address (Optional)</label>
+                        <input type="email" id="email" name="email">
+                    </div>
+                                    
+                    <div id="otpSection" style="display: none;">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="otp">Enter OTP *</label>
+                                <input type="text" id="otp" name="otp" placeholder="Enter 6-digit OTP" maxlength="6">
+                            </div>
+                            <div class="form-group">
+                                <label>&nbsp;</label>
+                                <button type="button" id="verifyOtpBtn" class="btn" style="width: 100%;">
+                                    <i class="fas fa-check"></i> Verify OTP
+                                </button>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <button type="button" id="resendOtpBtn" class="btn" style="background: #6c757d; width: auto; display: inline-block;">
+                                <i class="fas fa-redo"></i> Resend OTP
+                            </button>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="phone">Phone Number *</label>
+                        <input type="tel" id="phone" name="phone" required>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="course">Course of Interest *</label>
+                    <select id="course" name="course" required>
+                        <option value="">Select a course</option>
+                        <option value="diploma-engineering">Diploma in Engineering</option>
+                        <option value="degree-engineering">Bachelor of Engineering</option>
+                        <option value="mba">Master of Business Administration</option>
+                        <option value="computer-applications">Bachelor of Computer Applications</option>
+                        <option value="commerce">Bachelor of Commerce</option>
+                        <option value="science">Bachelor of Science</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="enquiryType">Enquiry Type *</label>
+                    <select id="enquiryType" name="enquiryType" required>
+                        <option value="">Select enquiry type</option>
+                        <option value="admission">Admission Process</option>
+                        <option value="fees">Fee Structure</option>
+                        <option value="courses">Course Details</option>
+                        <option value="placement">Placement Opportunities</option>
+                        <option value="facilities">Campus Facilities</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="message">Your Message *</label>
+                    <textarea id="message" name="message" rows="5" placeholder="Please provide details about your enquiry..." required></textarea>
+                </div>
+                
+                <div id="emailVerificationSection">
+                    <button type="button" id="sendOtpBtn" class="btn">
+                        <i class="fas fa-paper-plane"></i> Send OTP to Phone
+                    </button>
+                </div>
+                
+                <div id="submitSection" style="display: none;">
+                    <button type="submit" class="btn">
+                        <i class="fas fa-paper-plane"></i> Submit Enquiry
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Initialize EmailJS with your credentials
+        (function() {
+            emailjs.init("YOUR_PUBLIC_KEY"); // Replace with your EmailJS public key
+        })();
+        
+        // Generate random 6-digit OTP
+        function generateOTP() {
+            return Math.floor(100000 + Math.random() * 900000).toString();
+        }
+        
+        // Store OTP temporarily
+        let currentOTP = '';
+        let emailVerified = false;
+        let studentEmail = '';
+        let studentPhone = '';
+        
+        // Send OTP button handler
+        document.getElementById('sendOtpBtn').addEventListener('click', function() {
+            const phone = document.getElementById('phone').value;
+            
+            if (!phone) {
+                document.getElementById('errorAlert').style.display = 'block';
+                document.getElementById('errorAlert').innerHTML = '<i class="fas fa-exclamation-circle"></i> Please enter your phone number first.';
+                setTimeout(() => {
+                    document.getElementById('errorAlert').style.display = 'none';
+                }, 3000);
+                return;
+            }
+            
+            // Store phone for later use
+            studentPhone = phone;
+            
+            // Generate and store OTP
+            currentOTP = generateOTP();
+            
+            // Send OTP via SMS API
+            sendSMSOTP(phone, currentOTP);
+        });
+        
+        // Send SMS OTP function
+        function sendSMSOTP(phoneNumber, otp) {
+            const studentName = document.getElementById('firstName').value + ' ' + document.getElementById('lastName').value;
+            
+            // SMS API configuration (using demo service)
+            const smsData = {
+                phone: phoneNumber,
+                message: `BITS Institute: Hello ${studentName}! Your OTP is ${otp}. This code expires in 10 minutes.`,
+                sender: 'BITSINST'
+            };
+            
+            // Using a demo SMS service (replace with real service)
+            // For production, use services like Twilio, Nexmo, or local SMS providers
+            
+            // Simulate SMS sending (in real implementation, you would call actual SMS API)
+            console.log('SMS to be sent:', smsData);
+            
+            // Show success message
+            document.getElementById('otpAlert').style.display = 'block';
+            document.getElementById('otpAlert').innerHTML = '<i class="fas fa-check-circle"></i> OTP sent to ' + phoneNumber + '! Please check your messages.';
+            
+            // Show OTP section
+            document.getElementById('otpSection').style.display = 'block';
+            document.getElementById('emailVerificationSection').style.display = 'none';
+            
+            setTimeout(() => {
+                document.getElementById('otpAlert').style.display = 'none';
+            }, 5000);
+            
+            // For demo purposes, show OTP in console
+            console.log('Demo OTP for phone ' + phoneNumber + ': ' + otp);
+        }
+        
+        // Verify OTP button handler
+        document.getElementById('verifyOtpBtn').addEventListener('click', function() {
+            const enteredOTP = document.getElementById('otp').value;
+            
+            if (enteredOTP === currentOTP) {
+                emailVerified = true;
+                document.getElementById('verificationAlert').style.display = 'block';
+                document.getElementById('otpSection').style.display = 'none';
+                document.getElementById('submitSection').style.display = 'block';
+                setTimeout(() => {
+                    document.getElementById('verificationAlert').style.display = 'none';
+                }, 3000);
+            } else {
+                document.getElementById('errorAlert').style.display = 'block';
+                document.getElementById('errorAlert').innerHTML = '<i class="fas fa-exclamation-circle"></i> Invalid OTP. Please try again.';
+                setTimeout(() => {
+                    document.getElementById('errorAlert').style.display = 'none';
+                }, 3000);
+            }
+        });
+        
+        // Resend OTP button handler
+        document.getElementById('resendOtpBtn').addEventListener('click', function() {
+            currentOTP = generateOTP();
+            
+            // Send new OTP via SMS
+            sendSMSOTP(studentPhone, currentOTP);
+            
+            // Clear input field
+            document.getElementById('otp').value = '';
+        });
+        
+        // Form submission handler
+        document.getElementById('enquiryForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Check if email is verified
+            if (!emailVerified) {
+                document.getElementById('errorAlert').style.display = 'block';
+                document.getElementById('errorAlert').innerHTML = '<i class="fas fa-exclamation-circle"></i> Please verify your email first.';
+                setTimeout(() => {
+                    document.getElementById('errorAlert').style.display = 'none';
+                }, 3000);
+                return;
+            }
+            
+            // Hide alerts
+            document.getElementById('successAlert').style.display = 'none';
+            document.getElementById('errorAlert').style.display = 'none';
+            
+            // Get form data
+            const formData = {
+                firstName: document.getElementById('firstName').value,
+                lastName: document.getElementById('lastName').value,
+                email: document.getElementById('email').value,
+                phone: document.getElementById('phone').value,
+                course: document.getElementById('course').value,
+                enquiryType: document.getElementById('enquiryType').value,
+                message: document.getElementById('message').value,
+                timestamp: new Date().toISOString(),
+                emailVerified: true
+            };
+            
+            // Save to localStorage (simulating backend)
+            let enquiries = JSON.parse(localStorage.getItem('bits_enquiries') || '[]');
+            enquiries.push(formData);
+            localStorage.setItem('bits_enquiries', JSON.stringify(enquiries));
+            
+            // Show success message
+            document.getElementById('successAlert').style.display = 'block';
+            
+            // Reset form and state
+            this.reset();
+            emailVerified = false;
+            currentOTP = '';
+            document.getElementById('emailVerificationSection').style.display = 'block';
+            document.getElementById('submitSection').style.display = 'none';
+            document.getElementById('otpSection').style.display = 'none';
+            
+            // Scroll to top
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+    </script>
+</body>
+</html>
